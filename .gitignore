@@ -9,3 +9,4 @@
 *.tfvars
 
 **/private/*
+.DS_Store
