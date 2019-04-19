@@ -5,7 +5,7 @@ resource "google_compute_instance" "k8s_master_instance" {
 #  allow_stopping_for_update = true
   boot_disk {
     initialize_params {
-      image = "coreos-cloud/coreos-stable-1967-3-0-v20190108"
+      image = "projects/gce-uefi-images/global/images/centos-7-v20190326"
     }
   }
  
