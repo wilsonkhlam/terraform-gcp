@@ -1,0 +1,11 @@
+---
+- name: apply common configuration to all docker nodes
+  hosts: all
+  remote_user: root
+
+  roles:
+    - docker-nodes
+
+  environment:
+    http_proxy: 172.24.3.2:3128
+    https_proxy: 172.24.3.2:3128

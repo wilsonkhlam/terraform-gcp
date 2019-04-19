@@ -1,0 +1,10 @@
+[k8s-master-nodes]
+#172.24.2.2
+
+[k8s-worker-nodes]
+#172.24.2.2
+172.24.2.3
+
+[k8s-worker-nodes:vars]
+ansible_user=wilson_lam_ho
+ansible_ssh_private_key_file=~/mgmt.pem
