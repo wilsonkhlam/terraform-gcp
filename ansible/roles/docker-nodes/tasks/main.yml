@@ -1,11 +1,107 @@
 ---
 
-- name: Install docker
-  yum: name=docker state=installed
+- name: Install Yum Packages
+  yum:
+     name:  ["docker", "docker-compose", "yum-utils", "device-mapper-persistent-data", "lvm2"]
+     state: installed
   become: yes
   become_method: sudo
 
-- name: Install docker-compose  
-  yum: name=docker-compose state=installed
+- name: Docker HTTP Proxy
+  lineinfile:
+     path: /etc/sysconfig/docker
+     line: HTTP_PROXY=http://172.24.3.2:3128
+  become: yes
+  become_method: sudo
+
+- name: Docker HTTPS Proxy
+  lineinfile:
+     path: /etc/sysconfig/docker
+     line: HTTPS_PROXY=http://172.24.3.2:3128
+  become: yes
+  become_method: sudo
+
+- name: Enable and Start Docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+  become_method: sudo
+
+- name: disable selinux
+  selinux:
+    state: disabled
+  become: yes
+  become_method: sudo     
+
+
+- name: Disable and Stop firewalld
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: no
+  become: yes
+  become_method: sudo
+
+- sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+    sysctl_set: yes
+    sysctl_file: /etc/sysctl.d/kubernetes.conf
+  become: yes
+  become_method: sudo
+
+- sysctl:
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: 1
+    sysctl_set: yes
+    sysctl_file: /etc/sysctl.d/kubernetes.conf
+  become: yes
+  become_method: sudo
+
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+  become: yes
+  become_method: sudo
+
+- name: Disable swap
+  command: swapoff -a
+  #when: ansible_swaptotal_mb > 0
+  become: yes
+  become_method: sudo
+
+
+- name: Add repository
+  yum_repository:
+    name: kubernetes
+    description: Kubernetes Repository on GCP
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    file: kubernetes
+    enabled: yes
+  become: yes
+  become_method: sudo
+
+- name: Install k8s packages
+  yum:
+     name:  ["kubeadm", "kubelet", "kubectl"]
+     state: installed
+  become: yes
+  become_method: sudo
+
+
+- name: Enable and Start kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: yes
+  become: yes
+  become_method: sudo
+
+- name: Kubeadm Init
+  command: kubeadm init --apiserver-advertise-address=172.24.2.3 --pod-network-cidr=10.244.0.0/16
   become: yes
   become_method: sudo

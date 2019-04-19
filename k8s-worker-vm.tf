@@ -1,7 +1,7 @@
 resource "google_compute_instance" "k8s_worker_instance" {
   count        = 2 
   name         = "k8s-worker-vm-${count.index}"
-  machine_type = "f1-micro"
+  machine_type = "n1-standard-2"
   allow_stopping_for_update = true
   boot_disk {
     initialize_params {

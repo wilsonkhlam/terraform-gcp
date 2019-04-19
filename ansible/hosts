@@ -3,7 +3,9 @@
 
 [k8s-worker-nodes]
 #172.24.2.2
-172.24.2.3
+#172.24.2.3
+34.92.127.122
+
 
 [k8s-worker-nodes:vars]
 ansible_user=wilson_lam_ho

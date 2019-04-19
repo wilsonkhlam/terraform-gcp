@@ -45,7 +45,7 @@ resource "google_compute_firewall" "k8s_mgmt_node_fw" {
 
   allow {
     protocol = "tcp"
-    ports    = ["3128"]
+    ports    = ["3128", "22"]
   }
 
   target_tags = ["management-station"]
