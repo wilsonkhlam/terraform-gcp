@@ -101,7 +101,13 @@
   become: yes
   become_method: sudo
 
+- name: Reset Kubernetes component
+  shell: "kubeadm reset --force"
+  register: reset_cluster
+  become: yes
+  become_method: sudo
+
 - name: Kubeadm Init
-  command: kubeadm init --apiserver-advertise-address=172.24.2.3 --pod-network-cidr=10.244.0.0/16
+  shell: kubeadm init --apiserver-advertise-address=172.24.1.2 --pod-network-cidr=10.244.0.0/16
   become: yes
   become_method: sudo

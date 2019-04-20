@@ -62,14 +62,32 @@ resource "google_compute_firewall" "k8s_worker_node_fw_to_mgmt" {
     ports    = ["3128"]
   }
 
-  target_tags = ["k8s-worker"]
+  target_tags = ["k8s-master", "k8s-worker"]
 }
+
+resource "google_compute_firewall" "k8s_worker_node_fw_to_k8scomm" {
+  name    = "worker-node-firewall-to-k8scomm"
+  network = "${google_compute_network.k8s_network.self_link}"
+  priority = 2
+  direction = "EGRESS"
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "6443", "2379-2380", "10250", "10251", "10252", "30000-32767"]
+  }
+
+  destination_ranges = ["172.24.1.0/24", "172.24.2.0/24"]
+
+  target_tags = ["k8s-master", "k8s-worker"]
+}
+
+
+
 
 
 resource "google_compute_firewall" "k8s_worker_node_fw_block" {
   name    = "worker-node-firewall-block"
   network = "${google_compute_network.k8s_network.self_link}"
-  priority = 2
+  priority = 3
   direction = "EGRESS"
   deny {
   	protocol = "tcp"
