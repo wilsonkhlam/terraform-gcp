@@ -92,7 +92,6 @@
   become: yes
   become_method: sudo
 
-
 - name: Enable and Start kubelet
   systemd:
     name: kubelet
@@ -101,13 +100,11 @@
   become: yes
   become_method: sudo
 
-- name: Reset Kubernetes component
-  shell: "kubeadm reset --force"
-  register: reset_cluster
-  become: yes
-  become_method: sudo
-
-- name: Kubeadm Init
-  shell: kubeadm init --apiserver-advertise-address=172.24.1.2 --pod-network-cidr=10.244.0.0/16
+- name: Add the user 'kubernetes' with a bash shell, appending the group 'docker'to the user's groups
+  user:
+    name: kubernetes
+    shell: /bin/bash
+    groups: dockerroot
+    append: no
   become: yes
   become_method: sudo
