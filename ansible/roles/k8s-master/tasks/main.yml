@@ -36,6 +36,7 @@
   become_method: sudo
   become_user: kubernetes
 
-- command: kubeadm token create --print-join-command > /joincluster.sh
+- shell: kubeadm token create --print-join-command > ~/joincluster.sh
   become: yes
   become_method: sudo
+  become_user: kubernetes

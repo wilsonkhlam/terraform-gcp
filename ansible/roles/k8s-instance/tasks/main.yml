@@ -1,41 +1,5 @@
 ---
 
-- name: Install Yum Packages
-  yum:
-     name:  ["docker", "docker-compose", "yum-utils", "device-mapper-persistent-data", "lvm2"]
-     state: installed
-  become: yes
-  become_method: sudo
-
-- name: Docker HTTP Proxy
-  lineinfile:
-     path: /etc/sysconfig/docker
-     line: HTTP_PROXY=http://172.24.3.2:3128
-  become: yes
-  become_method: sudo
-
-- name: Docker HTTPS Proxy
-  lineinfile:
-     path: /etc/sysconfig/docker
-     line: HTTPS_PROXY=http://172.24.3.2:3128
-  become: yes
-  become_method: sudo
-
-- name: Enable and Start Docker
-  systemd:
-    name: docker
-    state: started
-    enabled: yes
-  become: yes
-  become_method: sudo
-
-- name: disable selinux
-  selinux:
-    state: disabled
-  become: yes
-  become_method: sudo     
-
-
 - name: Disable and Stop firewalld
   systemd:
     name: firewalld
@@ -43,7 +7,7 @@
     enabled: no
   become: yes
   become_method: sudo
-
+  
 - sysctl:
     name: net.bridge.bridge-nf-call-iptables
     value: 1

@@ -1,27 +1,22 @@
-
-[docker-nodes]
-34.92.246.0
-
-
+[proxy-nodes]
+# 172.24.3.3
+35.201.251.148
 
 [k8s-master-nodes]
-#172.24.2.2
-34.92.246.0
-
-
+# 172.24.1.6
+34.80.99.152
 
 [k8s-worker-nodes]
-#172.24.2.2
-#172.24.2.3
+#172.24.2.5
+#172.24.2.6
 
-[docker-nodes:vars]
+[proxy-nodes:vars]
 ansible_user=wilson_lam_ho
 ansible_ssh_private_key_file=~/mgmt.pem
 
-[k8s-worker-nodes:vars]
+[k8s-master-nodes:vars]
 ansible_user=wilson_lam_ho
 ansible_ssh_private_key_file=~/mgmt.pem
-
 
 [k8s-worker-nodes:vars]
 ansible_user=wilson_lam_ho

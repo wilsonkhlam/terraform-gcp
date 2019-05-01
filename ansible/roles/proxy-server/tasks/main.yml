@@ -1,0 +1,11 @@
+---
+
+- name: Start Squid Container
+  docker_container:
+    name: squid
+    image: minimum2scp/squid
+    ports: 3128:3128
+    state: started
+    restart_policy: "always"
+  become: yes
+  become_method: sudo

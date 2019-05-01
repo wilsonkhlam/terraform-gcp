@@ -1,12 +1,30 @@
 ---
-- name: apply common configuration to all docker nodes
-  hosts: all
+
+- name: Apply configuration to all k8s master nodes
+  hosts: k8s-master-nodes
   remote_user: root
-
   roles:
-    - docker-nodes
-    - k8s-master-nodes
-
+    - docker
+    - k8s-instance
+    - k8s-master 
   environment:
-    http_proxy: 172.24.3.2:3128
-    https_proxy: 172.24.3.2:3128
+    http_proxy: 172.24.3.3:3128
+    https_proxy: 172.24.3.3:3128
+
+- name: Apply configuration to all k8s worker nodes
+  hosts: k8s-worker-nodes
+  remote_user: root
+  roles:
+    - docker
+    - k8s-instance
+    - k8s-worker
+  environment:
+    http_proxy: 172.24.3.3:3128
+    https_proxy: 172.24.3.3:3128
+    
+- name: Apply configuration to proxy server
+  hosts: proxy-nodes
+  remote_user: root
+  roles:
+    - docker
+    - proxy-server

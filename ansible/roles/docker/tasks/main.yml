@@ -1,0 +1,46 @@
+---
+
+- name: Install Yum Packages
+  yum:
+     name:  ["docker", "docker-compose", "yum-utils", "device-mapper-persistent-data", "lvm2", "python2-pip"]
+     state: installed
+  become: yes
+  become_method: sudo
+
+- name: install python docker package, which is used by Ansible "docker_container"
+  pip:
+    name: docker
+    executable: pip
+  become: yes
+  become_method: sudo
+
+- name: Docker HTTP Proxy
+  lineinfile:
+     path: /etc/sysconfig/docker
+     line: HTTP_PROXY=http://172.24.3.3:3128
+  become: yes
+  become_method: sudo
+  when: ansible_facts['hostname'] != 'management-station'
+
+- name: Docker HTTPS Proxy
+  lineinfile:
+     path: /etc/sysconfig/docker
+     line: HTTPS_PROXY=http://172.24.3.3:3128
+  become: yes
+  become_method: sudo
+  when: ansible_facts['hostname'] != 'management-station'
+
+- name: Enable and Start Docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+  become_method: sudo
+
+- name: disable selinux
+  selinux:
+    state: disabled
+  become: yes
+  become_method: sudo
+
