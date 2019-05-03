@@ -1,6 +1,6 @@
 [proxy-nodes]
 # 172.24.3.3
-35.201.251.148
+35.221.142.5
 
 [k8s-master-nodes]
 # 172.24.1.6
@@ -9,6 +9,8 @@
 [k8s-worker-nodes]
 #172.24.2.5
 #172.24.2.6
+35.201.251.148
+
 
 [proxy-nodes:vars]
 ansible_user=wilson_lam_ho

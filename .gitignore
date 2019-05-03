@@ -1,5 +1,7 @@
 #  Local .terraform directories
 **/.terraform/*
+ansible/k8s_join_cmd.sh
+ansible/sites.retry
 
 # .tfstate files
 *.tfstate

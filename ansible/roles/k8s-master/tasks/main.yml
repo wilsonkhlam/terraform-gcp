@@ -11,32 +11,42 @@
   become: yes
   become_method: sudo
 
-- command: mkdir -p /home/kubernetes/.kube
+- name: Create folder /home/kubernetes/.kube
+  command: mkdir -p /home/kubernetes/.kube
   become: yes
   become_method: sudo
 
 
-- command: cp /etc/kubernetes/admin.conf /home/kubernetes/.kube/config
+- name: Copy /etc/kubernetes/admin.conf to /home/kubernetes/.kube
+  command: cp /etc/kubernetes/admin.conf /home/kubernetes/.kube/config
   become: yes
   become_method: sudo
 
-- command: chown -R kubernetes:kubernetes /home/kubernetes/.kube
+- name: Set owner of /home/kubernetes/.kube to "kubernetes"
+  command: chown -R kubernetes:kubernetes /home/kubernetes/.kube
   become: yes
   become_method: sudo
 
-- template:
+- name: Generate flannel configuration from template
+  template:
     src: kube-flannel.yml
     dest: /tmp/kube-flannel.yml
   become: yes
   become_method: sudo
   become_user: kubernetes  
 
-- command: kubectl create -f /tmp/kube-flannel.yml
+- name: Create network flannel
+  command: kubectl create -f /tmp/kube-flannel.yml
   become: yes
   become_method: sudo
   become_user: kubernetes
 
-- shell: kubeadm token create --print-join-command > ~/joincluster.sh
+- name: Create Kubernetes cluster
+  shell: kubeadm token create --print-join-command
+  register: k8screate_result
   become: yes
   become_method: sudo
   become_user: kubernetes
+
+- name: Save Kubernetes join command as local file 'k8s_join_cmd.sh'
+  local_action: copy content={{ k8screate_result.stdout }} dest=k8s_join_cmd.sh

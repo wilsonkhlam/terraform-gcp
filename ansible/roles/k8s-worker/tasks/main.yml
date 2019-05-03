@@ -1,0 +1,16 @@
+---
+
+- name: Copying file k8s_join_cmd.sh with owner and permissions set to kubernetes
+  copy:
+    src: k8s_join_cmd.sh
+    dest: /root/k8s_join_cmd.sh
+    owner: kubernetes
+    group: kubernetes
+    mode: 0744
+  become: yes
+  become_method: sudo
+
+- name: Join Kubernetes cluster
+  command: sh /root/k8s_join_cmd.sh
+  become: yes
+  become_method: sudo
