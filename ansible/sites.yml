@@ -8,8 +8,8 @@
     - k8s-instance
     - k8s-master 
   environment:
-    http_proxy: 172.24.3.3:3128
-    https_proxy: 172.24.3.3:3128
+    http_proxy: management-station:3128
+    https_proxy: management-station:3128
 
 - name: Apply configuration to all k8s worker nodes
   hosts: k8s-worker-nodes
@@ -19,8 +19,8 @@
     - k8s-instance
     - k8s-worker
   environment:
-    http_proxy: 172.24.3.3:3128
-    https_proxy: 172.24.3.3:3128
+    http_proxy: management-station:3128
+    https_proxy: management-station:3128
     
 - name: Apply configuration to proxy server
   hosts: proxy-nodes
@@ -28,3 +28,4 @@
   roles:
     - docker
     - proxy-server
+    - vnc

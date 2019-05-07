@@ -17,7 +17,7 @@
 - name: Docker HTTP Proxy
   lineinfile:
      path: /etc/sysconfig/docker
-     line: HTTP_PROXY=http://172.24.3.3:3128
+     line: HTTP_PROXY=http://management-station:3128
   become: yes
   become_method: sudo
   when: ansible_facts['hostname'] != 'management-station'
@@ -25,7 +25,7 @@
 - name: Docker HTTPS Proxy
   lineinfile:
      path: /etc/sysconfig/docker
-     line: HTTPS_PROXY=http://172.24.3.3:3128
+     line: HTTPS_PROXY=http://management-station:3128
   become: yes
   become_method: sudo
   when: ansible_facts['hostname'] != 'management-station'

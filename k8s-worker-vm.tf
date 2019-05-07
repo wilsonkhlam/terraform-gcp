@@ -15,6 +15,7 @@ resource "google_compute_instance" "k8s_worker_instance" {
 
   metadata {
     hostname = "worker-${count.index}.k8s-poc.org"
+    VmDnsSetting = "ZonalOnly"
   }
 
   network_interface {

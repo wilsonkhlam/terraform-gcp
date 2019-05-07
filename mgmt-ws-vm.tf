@@ -15,6 +15,7 @@ resource "google_compute_instance" "mgmt_ws_instance" {
 
   metadata {
     hostname = "mgmt-ws.k8s-poc.org"
+    VmDnsSetting = "ZonalOnly"
   }
 
   network_interface {
