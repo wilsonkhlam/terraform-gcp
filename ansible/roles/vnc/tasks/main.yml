@@ -1,93 +1,60 @@
 ---
-- name: Add the user '{{user}}' with a bash shell
-  user:
-    name: '{{user}}'
-    shell: /bin/bash
-    append: no
+
+- name: Install a list of packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - xdm
+    - expect
+    - nano
+    - chromium-browser
+    - tightvncserver
+    - xfce4
+    - xfce4-goodies
   become: yes
   become_method: sudo
 
-- name: install TigerVNC server
-  yum:
-    name: tigervnc-server
-    state: present
+- name: Add VNC user {{ vnc_user }} for vnc 
+  shell: adduser {{ vnc_user }} --gecos "" --disabled-password
   become: yes
-- name: copy configuration file
-  copy:
-    src: /usr/lib/systemd/system/vncserver@.service
-    dest: /etc/systemd/system/vncserver-{{ user }}@.service
-    remote_src: yes
-    force: no
+  become_method: sudo
+
+
+- name: Create .ssh directory
+  shell: mkdir /home/{{ vnc_user }}/.ssh
   become: yes
-- name: configure ExecStart
-  lineinfile:
-    path: /etc/systemd/system/vncserver-{{ user }}@.service
-    regexp: ^ExecStart=
-    line: ExecStart=/usr/sbin/runuser -l {{ user }} -c "/usr/bin/vncserver %i"
-  notify: restart VNC service
+  become_method: sudo
+
+- name: Create .ssh directory
+  shell: bash -c "echo ssh-rsa {{ vnc_ssh_pub_key }}  >> /home/{{ vnc_user }}/.ssh/authorized_keys"
   become: yes
-- name: configure PIDFile
-  lineinfile:
-    path: /etc/systemd/system/vncserver-{{ user }}@.service
-    regexp: ^PIDFile=
-    line: PIDFile=/home/{{ user }}/.vnc/%H%i.pid
-  notify: restart VNC service
+  become_method: sudo
+
+- name: Prepare OpenSSH Tunnel Config File
+  shell:
+    cmd: |
+      cat <<EOL >> /tmp/sshd_config
+      Match User {{ vnc_user }}
+      PermitOpen 127.0.0.1:5901
+      X11Forwarding no
+      AllowAgentForwarding no
+      ForceCommand /bin/false
+      EOL
   become: yes
-- name: remove service user directive which sometimes seems to be present
-  lineinfile:
-    path: /etc/systemd/system/vncserver-{{ user }}@.service
-    state: absent
-    regexp: ^User=
-  notify: restart VNC service
+  become_method: sudo
+
+- name: Add OpenSSH Tunnel Config
+  shell: sudo bash -c "cat /tmp/sshd_config >> /etc/ssh/sshd_config"
   become: yes
-- name: check if VNC password is already set
-  stat:
-    path: /home/{{ user }}/.vnc/passwd
-  register: vnc_passwd_file
+  become_method: sudo
+
+- name: Remove temp OpenSSH Tunnel Config
+  shell: rm /tmp/sshd_config
   become: yes
-- name: create .vnc directory
-  file:
-    path: /home/{{ user }}/.vnc
-    state: directory
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: 0755
-  when: not vnc_passwd_file.stat.exists
+  become_method: sudo
+
+- name: restart sshd
+  service: name=sshd state=restarted
   become: yes
-- name: set default VNC password
-  shell: echo {{ password }} | vncpasswd -f > /home/{{ user }}/.vnc/passwd
-  when: not vnc_passwd_file.stat.exists
-  become: yes
-- name: set correct permissions for VNC passwd file
-  file:
-    path: /home/{{ user }}/.vnc/passwd
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: 0600
-  when: not vnc_passwd_file.stat.exists
-  become: yes
-- name: start and enable VNC service
-  systemd:
-    name: vncserver-{{ user }}@{{ display }}
-    daemon_reload: yes
-    state: started
-    enabled: yes
-  become: yes
-- name: start GNOME 3 (not classic) session by default
-  lineinfile:
-    path: /home/{{ user }}/.vnc/xstartup
-    regexp: ^exec 
-    line: exec gnome-session
-  notify: restart VNC service
-  become: yes
-- name: check if autostart file exists
-  stat:
-    path: /etc/xdg/autostart/gnome-software-service.desktop
-  register: autostart_file
-- name: 'fix popup: "Authentication is required to set the network proxy used for downloading packages"'
-  lineinfile:
-    path: /etc/xdg/autostart/gnome-software-service.desktop
-    line: X-GNOME-Autostart-enabled=false
-  notify: restart VNC service
-  when: autostart_file.stat.exists
-  become: yes
+  become_method: sudo

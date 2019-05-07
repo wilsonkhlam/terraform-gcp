@@ -28,4 +28,9 @@
   roles:
     - docker
     - proxy-server
+
+- name: Apply configuration to vnc server
+  hosts: vnc-nodes
+  remote_user: root
+  roles:
     - vnc

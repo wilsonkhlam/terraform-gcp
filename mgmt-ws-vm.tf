@@ -1,3 +1,4 @@
+/*
 resource "google_compute_instance" "mgmt_ws_instance" {
   count        = 1 
   name         = "management-station"
@@ -24,3 +25,4 @@ resource "google_compute_instance" "mgmt_ws_instance" {
     }
   }
 }
+*/

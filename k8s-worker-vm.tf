@@ -1,3 +1,4 @@
+/*
 resource "google_compute_instance" "k8s_worker_instance" {
   count        = 2 
   name         = "k8s-worker-vm-${count.index}"
@@ -24,3 +25,4 @@ resource "google_compute_instance" "k8s_worker_instance" {
     }
   }
 }
+*/

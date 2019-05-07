@@ -35,23 +35,6 @@ resource "google_compute_firewall" "k8s_worker_node_fw" {
 
 }
 
-resource "google_compute_firewall" "k8s_mgmt_node_fw" {
-  name    = "mgmt-node-firewall"
-  network = "${google_compute_network.k8s_network.self_link}"
-
-  allow {
-    protocol = "icmp"
-  }
-
-  allow {
-    protocol = "tcp"
-    ports    = ["3128", "22"]
-  }
-
-  target_tags = ["management-station"]
-}
-
-
 resource "google_compute_firewall" "k8s_worker_node_fw_to_mgmt" {
   name    = "worker-node-firewall-to-mgmt"
   network = "${google_compute_network.k8s_network.self_link}"
@@ -80,10 +63,6 @@ resource "google_compute_firewall" "k8s_worker_node_fw_to_k8scomm" {
   target_tags = ["k8s-master", "k8s-worker"]
 }
 
-
-
-
-
 resource "google_compute_firewall" "k8s_worker_node_fw_block" {
   name    = "worker-node-firewall-block"
   network = "${google_compute_network.k8s_network.self_link}"
@@ -95,4 +74,39 @@ resource "google_compute_firewall" "k8s_worker_node_fw_block" {
 
   target_tags = ["k8s-master", "k8s-worker"]
 
+}
+
+
+
+resource "google_compute_firewall" "k8s_mgmt_node_fw" {
+  name    = "mgmt-node-firewall"
+  network = "${google_compute_network.k8s_network.self_link}"
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["3128", "22"]
+  }
+
+  target_tags = ["management-station"]
+}
+
+
+resource "google_compute_firewall" "k8s_vnc_node_fw" {
+  name    = "vnc-node-firewall"
+  network = "${google_compute_network.k8s_network.self_link}"
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  target_tags = ["vnc-server"]
 }

@@ -21,3 +21,9 @@ resource "google_compute_subnetwork" "mgmt_subnetwork" {
   ip_cidr_range = "172.24.3.0/24"
   network = "${google_compute_network.k8s_network.self_link}"
 }
+
+resource "google_compute_subnetwork" "vnc_subnetwork" {
+  name                    = "vnc-subnetwork"
+  ip_cidr_range = "172.24.4.0/24"
+  network = "${google_compute_network.k8s_network.self_link}"
+}
