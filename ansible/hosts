@@ -1,6 +1,6 @@
 [proxy-nodes]
 # 172.24.3.3
-35.229.161.133
+#35.229.161.133
 
 [k8s-master-nodes]
 # 172.24.1.6
@@ -17,19 +17,19 @@
 
 [proxy-nodes:vars]
 ansible_user=wilson_lam_ho
-ansible_ssh_private_key_file=~/mgmt.pem
+ansible_ssh_private_key_file=../private/mgmt.pem
 user=mgmtadmin
 
 [k8s-master-nodes:vars]
 ansible_user=wilson_lam_ho
-ansible_ssh_private_key_file=~/mgmt.pem
+ansible_ssh_private_key_file=../private/mgmt.pem
 
 [k8s-worker-nodes:vars]
 ansible_user=wilson_lam_ho
-ansible_ssh_private_key_file=~/mgmt.pem
+ansible_ssh_private_key_file=../private/mgmt.pem
 
 [vnc-nodes:vars]
 ansible_user=wilson_lam_ho
-ansible_ssh_private_key_file=~/mgmt.pem
+ansible_ssh_private_key_file=../private/mgmt.pem
 vnc_user = vncadmin
-vnc_ssh_pub_key = AAAAB3NzaC1yc2EAAAADAQABAAABAQDCnx59gVpkefplLZU1tKGDOWPwZf0q+OrfLdBxFFzpY0jfE+LBDbRSpyScuai6kQSWJLRHUOo0OR/bTOqxctodSqeTNejyNeOQ54H+nd41cVxcK3XhyBIMb8DQAp0HqIRHj+b/2LlKJblZgflFFwF4kImjWBTBj+jYHWPKUwA/grpL1o6dCoe7agdqTiKyqpzdmhZbNqC5J5v97tKKIHPE0UVIkQ0mJ6Bv6Sb/1PSGxikuTuOjKL0Z37lT8zbsQdDt/eYZ/N7YK4OYtp7/JqtpkecGZ8JomxPesUUUEfkW+xXQg4O7lKAbee9nlkC9n2ht78E4A+xF6oBvvXeIbIKR
+vnc_ssh_pub_key=AAAAB3NzaC1yc2EAAAADAQABAAABAQDCnx59gVpkefplLZU1tKGDOWPwZf0q+OrfLdBxFFzpY0jfE+LBDbRSpyScuai6kQSWJLRHUOo0OR/bTOqxctodSqeTNejyNeOQ54H+nd41cVxcK3XhyBIMb8DQAp0HqIRHj+b/2LlKJblZgflFFwF4kImjWBTBj+jYHWPKUwA/grpL1o6dCoe7agdqTiKyqpzdmhZbNqC5J5v97tKKIHPE0UVIkQ0mJ6Bv6Sb/1PSGxikuTuOjKL0Z37lT8zbsQdDt/eYZ/N7YK4OYtp7/JqtpkecGZ8JomxPesUUUEfkW+xXQg4O7lKAbee9nlkC9n2ht78E4A+xF6oBvvXeIbIKR

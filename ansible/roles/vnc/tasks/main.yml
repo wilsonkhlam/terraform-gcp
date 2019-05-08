@@ -17,14 +17,17 @@
 
 - name: Add VNC user {{ vnc_user }} for vnc
   user:
-     name: {{ vnc_user }}
+    name: "{{ vnc_user }}"
+  become: yes
+  become_method: sudo
 
 - name: Install authorized ssh key for user {{ vnc_user }}
   authorized_key:
-    user: {{ vnc_user }}
+    user: "{{ vnc_user }}"
     state: present
-    key: {{ vnc_ssh_pub_key }}
-
+    key: "{{ lookup('file', 'vnc_ssh.pub') }}"
+  become: yes
+  become_method: sudo
     
 - name: Check whether /etc/ssh/sshd_config contains "127.0.0.1:5901"
   command: grep -Fxq "127.0.0.1:5901" /etc/ssh/sshd_config
@@ -32,10 +35,6 @@
   check_mode: no
   ignore_errors: yes
   changed_when: no
-
-- name: Greet the world if /tmp/my.conf contains "127.0.0.1"
-  debug: msg="Hello, world!"
-  when: checkmyconf.rc == 0
     
 - name: Prepare OpenSSH Tunnel Config File
   shell:
