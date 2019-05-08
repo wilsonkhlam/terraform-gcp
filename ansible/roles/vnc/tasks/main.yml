@@ -18,6 +18,8 @@
 - name: Add VNC user {{ vnc_user }} for vnc
   user:
     name: "{{ vnc_user }}"
+    shell: /bin/bash
+    home: /home/{{ vnc_user}}
   become: yes
   become_method: sudo
 
@@ -90,7 +92,7 @@
   become: yes
   become_user: "{{ vnc_user }}"
 - name: Start VNC Server
-  shell: "vncserver -geometry 1024x768 -depth 16 :1"
+  shell: 'bash -c "vncserver :1"'
   register: vncstart
   failed_when: vncstart.rc !=0 and vncstart.rc!=98
   become: yes
