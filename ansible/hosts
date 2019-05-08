@@ -12,7 +12,7 @@
 35.201.251.148
 
 [vnc-nodes]
-35.229.161.133
+34.80.129.48
 
 
 [proxy-nodes:vars]
@@ -32,4 +32,4 @@ ansible_ssh_private_key_file=../private/mgmt.pem
 ansible_user=wilson_lam_ho
 ansible_ssh_private_key_file=../private/mgmt.pem
 vnc_user = vncadmin
-vnc_password = 
+vnc_password = Abc123

@@ -51,13 +51,15 @@
   become_method: sudo
 
 - name: Add OpenSSH Tunnel Config
-  shell: sudo bash -c "cat /tmp/sshd_config >> /etc/ssh/sshd_config"
+  shell: "cat /tmp/sshd_config >> /etc/ssh/sshd_config"
   when: checksshdconf.rc == 1
   become: yes
   become_method: sudo
 
 - name: Remove temp OpenSSH Tunnel Config
-  shell: rm /tmp/sshd_config
+  file: 
+     path: /tmp/sshd_config
+     state: absent
   when: checksshdconf.rc == 1
   become: yes
   become_method: sudo
@@ -69,23 +71,27 @@
   become_method: sudo
 
 - name: "Create the remote /{{ vnc_user }}/.vnc directory"
-    file:
-      path: "/home/{{ vnc_user }}/.vnc"
-      mode: 0755
-      state: directory
+  file:
+     path: "/home/{{ vnc_user }}/.vnc"
+     mode: 0755
+     state: directory
   become: yes
   become_user: "{{ vnc_user }}"
 
 - name: "Generate vnc password for user {{ vnc_user }}  remotely"
-    shell: |
-        echo {{ vnc_password}}  | vncpasswd -f > /home/{{ vnc_user }}}/.vnc/passwd
+  shell: |
+        echo {{ vnc_password}}  | vncpasswd -f > /home/{{ vnc_user }}/.vnc/passwd
   become: yes
   become_user: "{{ vnc_user }}"
 - name: "Change the permission to 600 for /{{ vnc_user }}/.vnc/passwd file"
-    file:
+  file:
       path: "/home/{{ vnc_user }}/.vnc/passwd"
       mode: 0600
   become: yes
   become_user: "{{ vnc_user }}"
-
-
+- name: Start VNC Server
+  shell: "vncserver -geometry 1024x768 -depth 16 :1"
+  register: vncstart
+  failed_when: vncstart.rc !=0 and vncstart.rc!=98
+  become: yes
+  become_user: "{{ vnc_user }}"
