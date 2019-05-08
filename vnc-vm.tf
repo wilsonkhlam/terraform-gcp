@@ -1,3 +1,4 @@
+/*
 resource "google_compute_instance" "vnc_instance" {
   count        = 1 
   name         = "vnc-server"
@@ -24,3 +25,4 @@ resource "google_compute_instance" "vnc_instance" {
     }
   }
 }
+*/
