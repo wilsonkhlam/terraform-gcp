@@ -12,7 +12,7 @@
 35.201.251.148
 
 [vnc-nodes]
-34.80.129.48
+35.229.161.133
 
 
 [proxy-nodes:vars]
@@ -32,4 +32,4 @@ ansible_ssh_private_key_file=~/mgmt.pem
 ansible_user=wilson_lam_ho
 ansible_ssh_private_key_file=~/mgmt.pem
 vnc_user = vncadmin
-vnc_ssh_pub_key = AAAAB3NzaC1yc2EAAAADAQABAAABAQDCnx59gVpkefplLZU1tKGDOWPwZf0q+OrfLdBxFFzpY0jfE+LBDbRSpyScuai6kQSWJLRHUOo0OR/bTOqxctodSqeTNejyNeOQ54H+nd41cVxcK3XhyBIMb8DQAp0HqIRHj+b/2LlKJblZgflFFwF4kImjWBTBj+jYHWPKUwA/grpL1o6dCoe7agdqTiKyqpzdmhZbNqC5J5v97tKKIHPE0UVIkQ0mJ6Bv6Sb/1PSGxikuTuOjKL0Z37lT8zbsQdDt/eYZ/N7YK4OYtp7/JqtpkecGZ8JomxPesUUUEfkW+xXQg4O7lKAbee9nlkC9n2ht78E4A+xF6oBvvXeIbIKR imported-openssh-key
+vnc_ssh_pub_key = AAAAB3NzaC1yc2EAAAADAQABAAABAQDCnx59gVpkefplLZU1tKGDOWPwZf0q+OrfLdBxFFzpY0jfE+LBDbRSpyScuai6kQSWJLRHUOo0OR/bTOqxctodSqeTNejyNeOQ54H+nd41cVxcK3XhyBIMb8DQAp0HqIRHj+b/2LlKJblZgflFFwF4kImjWBTBj+jYHWPKUwA/grpL1o6dCoe7agdqTiKyqpzdmhZbNqC5J5v97tKKIHPE0UVIkQ0mJ6Bv6Sb/1PSGxikuTuOjKL0Z37lT8zbsQdDt/eYZ/N7YK4OYtp7/JqtpkecGZ8JomxPesUUUEfkW+xXQg4O7lKAbee9nlkC9n2ht78E4A+xF6oBvvXeIbIKR
