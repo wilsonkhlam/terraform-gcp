@@ -1,4 +1,3 @@
-/*
 resource "google_compute_instance" "k8s_master_instance" {
   count        = 1 
   name         = "k8s-master-vm-${count.index}"
@@ -24,9 +23,4 @@ resource "google_compute_instance" "k8s_master_instance" {
     }
   }
 
- provisioner "local-exec" {
-	command = "echo hello > /tmp/ppp"
- }
-
 }
-*/

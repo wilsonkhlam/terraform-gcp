@@ -1,6 +1,5 @@
-/*
 resource "google_compute_instance" "k8s_worker_instance" {
-  count        = 2 
+  count        = 1 
   name         = "k8s-worker-vm-${count.index}"
   machine_type = "n1-standard-2"
   allow_stopping_for_update = true
@@ -25,4 +24,3 @@ resource "google_compute_instance" "k8s_worker_instance" {
     }
   }
 }
-*/

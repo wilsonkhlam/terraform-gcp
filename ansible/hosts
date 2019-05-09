@@ -1,16 +1,15 @@
 [proxy-nodes]
+35.201.251.148
 # 172.24.3.3
 #35.229.161.133
 
 [k8s-master-nodes]
-# 172.24.1.6
+35.221.142.5
 
 [k8s-worker-nodes]
-#172.24.2.5
-#172.24.2.6
+34.80.99.152
 
 [vnc-nodes]
-34.80.99.152
 
 [proxy-nodes:vars]
 ansible_user=wilson_lam_ho

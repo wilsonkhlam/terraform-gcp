@@ -77,7 +77,10 @@ resource "google_compute_firewall" "k8s_worker_node_fw_block" {
 }
 
 
-
+/*
+   - Open only port 22 and 3128
+   - Open ALL OUTBOUND
+*/
 resource "google_compute_firewall" "k8s_mgmt_node_fw" {
   name    = "mgmt-node-firewall"
   network = "${google_compute_network.k8s_network.self_link}"
@@ -94,7 +97,10 @@ resource "google_compute_firewall" "k8s_mgmt_node_fw" {
   target_tags = ["management-station"]
 }
 
-
+/* 
+    - Open only INBOUND port 22 to public and private access
+    - Open ALL OUTBOUND
+*/
 resource "google_compute_firewall" "k8s_vnc_node_fw" {
   name    = "vnc-node-firewall"
   network = "${google_compute_network.k8s_network.self_link}"

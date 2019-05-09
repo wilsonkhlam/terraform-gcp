@@ -92,8 +92,7 @@
   become: yes
   become_user: "{{ vnc_user }}"
 - name: Start VNC Server
-  shell: 'bash -c "vncserver :1"'
+  shell: 'sudo -iu {{ vnc_user }} vncserver -depth 16 -geometry 1280x1024 :1'
   register: vncstart
   failed_when: vncstart.rc !=0 and vncstart.rc!=98
   become: yes
-  become_user: "{{ vnc_user }}"
