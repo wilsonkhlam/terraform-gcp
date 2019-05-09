@@ -1,0 +1,30 @@
+[proxy-nodes] 
+management-station
+
+[k8s-master-nodes]
+k8s-master-vm-0
+
+[k8s-worker-nodes]
+k8s-worker-vm-0
+
+[vnc-nodes]
+34.80.99.152
+
+[proxy-nodes:vars]
+ansible_user=wilson_lam_ho
+ansible_ssh_private_key_file=../private/mgmt.pem
+user=mgmtadmin
+
+[k8s-master-nodes:vars]
+ansible_user=wilson_lam_ho
+ansible_ssh_private_key_file=../private/mgmt.pem
+
+[k8s-worker-nodes:vars]
+ansible_user=wilson_lam_ho
+ansible_ssh_private_key_file=../private/mgmt.pem
+
+[vnc-nodes:vars]
+ansible_user=wilson_lam_ho
+ansible_ssh_private_key_file=../private/mgmt.pem
+vnc_user = vncadmin
+vnc_password = Abc123
